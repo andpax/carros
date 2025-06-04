@@ -1,41 +1,31 @@
 from django.shortcuts import render, redirect
 from cars.models import Car
 from cars.forms import CarModelForm
-# from cars.forms import CarForm
+from django.views import View
 
- # print(request)
-    # print(request.GET)
-    # filtros
-    # cars = Car.objects.filter(brand=2) # filtrando por id da brand (marcas)
-    # cars = Car.objects.filter(brand__name='Fiat') # filtrando pelo nome da brand
-    # cars = Car.objects.filter(model__contains='Chevette') # filtrando pelo modelo se contiver Chevette
-    # cars = Car.objects.filter(model__icontains='Chevette') # filtrando ignorando o CamelCase
-    # cars = Car.objects.all().order_by('-model') # ordenação invertidada
 
-    # http://127.0.0.1:8000/cars/?search=marea # busca pelo modelo do carro
+class CarsView(View):
+    def get(self, request):
+        cars = Car.objects.all().order_by('model')
+        search = request.GET.get('search')
 
-# Create your views here.
-def cars_view(request):
-    cars = Car.objects.all().order_by('model')
-    search = request.GET.get('search')
+        if search:
+            cars = cars.filter(model__icontains=search)
 
-    if search:
-        cars = cars.filter(model__icontains=search)
+        return render(
+            request, 
+            'cars.html',
+            {'cars': cars }
+        )
 
-    return render(
-        request, 
-        'cars.html',
-        {'cars': cars }
-    )
+class NewCarView(View):
+    def get(self, request):
+        new_car_form = CarModelForm()
+        return render(request, 'new_car.html', {'new_car_form': new_car_form})
 
-def new_car_view(request):
-    if request.method == 'POST':
+    def post(self, request):
         new_car_form = CarModelForm(request.POST, request.FILES)
-        # print(new_car_form.data)
         if new_car_form.is_valid():
             new_car_form.save()
-            return redirect('cars_list') 
-    else:
-        new_car_form = CarModelForm()
-    
-    return render(request, 'new_car.html', {'new_car_form': new_car_form})
+            return redirect('cars_list')
+        return render(request, 'new_car.html', {'new_car_form': new_car_form})
