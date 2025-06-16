@@ -1,7 +1,6 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block content %}
-
   <style>
     form {
       max-width: 800px;
@@ -11,31 +10,35 @@
       border-radius: 10px;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
     }
-
+    
     form h1 {
       font-size: 2rem;
       margin-bottom: 20px;
       text-align: center;
     }
-
+    
     table {
       margin: 0 auto;
       border-collapse: collapse;
       width: 100%;
       max-width: 600px;
     }
-
-    th, td {
+    
+    th,
+    td {
       padding: 4px;
       text-align: left;
       border-bottom: 1px solid #ddd;
     }
-
+    
     th {
       background-color: #f2f2f2;
     }
-
-    input[type="text"], input[type="number"], select, textarea {
+    
+    input[type='text'],
+    input[type='number'],
+    select,
+    textarea {
       padding: 8px;
       font-size: 14px;
       border: 2px solid #ddd;
@@ -45,12 +48,15 @@
       margin-bottom: 8px;
       transition: border-bottom-color 0.3s ease-in-out;
     }
-
-    input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:focus {
+    
+    input[type='text']:focus,
+    input[type='number']:focus,
+    select:focus,
+    textarea:focus {
       outline: none;
       border-bottom-color: #0096c7;
     }
-
+    
     .btn {
       background-color: #0096c7;
       color: #fff;
@@ -61,14 +67,14 @@
       cursor: pointer;
       transition: background-color 0.3s ease-in-out;
     }
-
+    
     .buttons-container {
       display: flex;
       justify-content: center;
       margin-top: 20px;
       margin-bottom: 20px;
     }
-
+    
     .btn {
       display: inline-block;
       background-color: #0096c7;
@@ -81,40 +87,37 @@
       transition: background-color 0.3s ease-in-out;
       margin: 0 10px;
     }
-
+    
     .btn:hover {
       background-color: #108eb8;
     }
-
+    
     .btn-danger {
       background-color: #d9534f;
       text-decoration: none !important;
     }
-
+    
     .btn-danger:hover {
       background-color: #d2221c;
     }
-
+    
     .error-message {
       color: #d9534f;
       font-size: 14px;
       margin-top: 5px;
     }
-
+    
     a {
       text-decoration: none !important;
     }
-
   </style>
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <h1>Editar Carro</h1>
-    <table>
-      {{ form.as_table }}
-    </table>
+    <table>{{ form.as_table }}</table>
     <div>
       <div class="buttons-container">
-        <input type="submit" value="Salvar Alterações" class="btn btn-primary">
+        <input type="submit" value="Salvar Alterações" class="btn btn-primary" />
         <a href="{% url 'car_delete' pk=object.pk %}" class="btn btn-danger">Deletar</a>
         <a href="{% url 'cars_list' %}" class="btn btn-secondary">Cancelar</a>
       </div>
