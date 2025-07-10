@@ -19,8 +19,9 @@ def car_inventory_update():
 
 @receiver(pre_save, sender=Car)
 def car_pre_save(sender, instance, **kwargs):
-    ai_bio = get_car_ia_bio(instance.model, instance.brand, instance.model_year)
-    instance.bio = ai_bio
+    if not instance.bio:
+        ai_bio = get_car_ia_bio(instance.model, instance.brand, instance.model_year)
+        instance.bio = ai_bio
 
 
 @receiver(post_save, sender=Car)
